@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://username:4yULAq4Ms4XFSOOV@cluster0.svkrjsf.mongodb.net/parkingsystem?retryWrites=true&w=majority",
+    // mongo cluster key "",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
