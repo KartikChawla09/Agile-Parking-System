@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <style>
+      /* General styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff; /* White background */
+        color: #333; /* Dark text color */
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333; /* Dark header color */
+      }
+
+      /* Grid layout for slot cards */
+      .slots-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(200px, 1fr)
+        ); /* Responsive grid columns */
+        grid-gap: 20px; /* Gap between grid items */
+      }
+
+      /* Slot card styles */
+      .slot-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        border: 1px solid #ccc; /* Border style */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: box-shadow 0.3s ease;
+        cursor: pointer; /* Add pointer cursor */
+      }
+
+      .slot-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .slot-location {
+        font-weight: bold;
+        font-size: 18px;
+        color: #333; /* Dark location color */
+        margin-bottom: 10px;
+      }
+
+      .slot-time {
+        color: #666666;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Free Parking Slots</h1>
+      <div id="slotsContainer" class="slots-grid"></div>
+    </div>
+
+    <script>
+      // Function to fetch and display free slots
+      async function fetchAndDisplaySlots() {
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/slots/freeSlots"
+          );
+          const slots = await response.json();
+
+          const slotsContainer = document.getElementById("slotsContainer");
+
+          // Clear previous slots
+          slotsContainer.innerHTML = "";
+
+          // Render each slot
+          slots.forEach((slot) => {
+            const slotCard = document.createElement("div");
+            slotCard.classList.add("slot-card");
+
+            const location = document.createElement("div");
+            location.classList.add("slot-location");
+            location.textContent = `Location: ${slot.location}`;
+
+            const startTime = new Date(slot.startTime).toLocaleString();
+            const endTime = new Date(slot.endTime).toLocaleString();
+            const time = document.createElement("div");
+            time.classList.add("slot-time");
+            time.textContent = `Start Time: ${startTime}, End Time: ${endTime}`;
+
+            // Add click event listener to book the slot
+            slotCard.addEventListener("click", () => bookSlot(slot._id));
+
+            slotCard.appendChild(location);
+            slotCard.appendChild(time);
+
+            slotsContainer.appendChild(slotCard);
+          });
+        } catch (error) {
+          console.error("Error fetching slots:", error.message);
+        }
+      }
+
+      // Function to book a slot
+      async function bookSlot(slotId) {
+        const userId = "65f4b29fb853e0f85a0c0e44"; // Replace with actual user ID
+
+        try {
+          const response = await fetch("http://localhost:3000/api/slots/book", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ slotId, userId }),
+          });
+          const data = await response.json();
+          console.log("Slot booked successfully:", data);
+        } catch (error) {
+          console.error("Error booking slot:", error.message);
+        }
+      }
+
+      // Call fetchAndDisplaySlots when the page loads
+      window.onload = fetchAndDisplaySlots;
+    </script>
+  </body>
+</html>

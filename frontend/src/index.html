@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agile Parking System</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <!-- Link to your CSS file -->
+  </head>
+  <body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div>
+          <label for="loginUsername">Username:</label>
+          <input type="text" id="loginUsername" name="loginUsername" required />
+        </div>
+        <div>
+          <label for="loginPassword">Password:</label>
+          <input
+            type="password"
+            id="loginPassword"
+            name="loginPassword"
+            required
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <p>
+        Don't have an account?
+        <a href="#" onclick="showRegisterPage()">Register here</a>.
+      </p>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="page" style="display: none">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <div>
+          <label for="registerUsername">Username:</label>
+          <input
+            type="text"
+            id="registerUsername"
+            name="registerUsername"
+            required
+          />
+        </div>
+        <div>
+          <label for="registerPassword">Password:</label>
+          <input
+            type="password"
+            id="registerPassword"
+            name="registerPassword"
+            required
+          />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p>
+        Already have an account?
+        <a href="#" onclick="showLoginPage()">Login here</a>.
+      </p>
+    </div>
+
+    <script src="./js/script.js"></script>
+    <!-- Link to your JavaScript file -->
+  </body>
+</html>
